@@ -11,15 +11,15 @@ package silabas;
  */
 public class Silabas {
     public static void main(String[] args) {
-        
-        String palabra = "monstruo";
+        // sencillez
+        String palabra = "transgresor";
         Silabas.separar(palabra);
     }
         
     public static boolean esPalabra(String palabra){ //Determina que lo ingresado si sea una palabra
         String []arregloPalabras = palabra.split(""); //.split separa los elementos de un objeto String
         boolean esPalabra = true;
-        String abecedario = "abcdefghijklmnñopqrstuvwxyz";
+        String abecedario = "abcdefghijklmnñopqrstuvwxyzáéíóú";
         for (int i = 0; i < arregloPalabras.length; i++) {
             //Si en la variable palabra, hay un elemento no perteneciente al abecedario, entonces no es una palabra.
             if (!abecedario.contains(arregloPalabras[i])) esPalabra=false;
@@ -28,11 +28,13 @@ public class Silabas {
     }
     
     public static boolean esConsonante(String c){//True si es consonante
-        return !c.equals("a") && !c.equals("e") && !c.equals("i") && !c.equals("o") && !c.equals("u");
+        return !c.equals("a") && !c.equals("e") && !c.equals("i") && !c.equals("o") && !c.equals("u") &&
+                !c.equals("á") && !c.equals("é") && !c.equals("í") && !c.equals("ó") && !c.equals("ú");
     }
     
     public static boolean esVocal(String v){ //True si es vocal
-        return v.equals("a") || v.equals("e") || v.equals("i") || v.equals("o") || v.equals("u");
+        return v.equals("a") || v.equals("e") || v.equals("i") || v.equals("o") || v.equals("u") ||
+                v.equals("á") || v.equals("é") || v.equals("í") || v.equals("ó") || v.equals("ú");
     }
     
     public static boolean esGrupoConsonantico(String c1, String c2){
@@ -51,8 +53,23 @@ public class Silabas {
         }
         
     }
+    public static boolean esEspecial(String c1, String c2){
+        if (c1.equals("l")&&c2.equals("l")) {
+            return true;
+        }
+        else if (c1.equals("c")&&c2.equals("h")) {
+            return true;
+        }
+        else if (c1.equals("r")&&c2.equals("r")) {
+            return true;
+        }
+        else
+            return false;
+        
+    }
     public static boolean esVocalFuerte(String v){
-        return v.equals("a") || v.equals("e") || v.equals("o");
+        return v.equals("a") || v.equals("e") || v.equals("o") ||
+                v.equals("á") || v.equals("é") || v.equals("í") || v.equals("ó") || v.equals("ú");
     }
     /*
     public static boolean esVocalDebil(String v){
@@ -66,16 +83,16 @@ public class Silabas {
             for (int i = 1; i < elemento.length; i++) {
                  // de 0...7, entonces desde 41 hasta 6
                     if (esConsonante(elemento[i])&&i<(elemento.length-1)) {// es consonante
-                        if (esGrupoConsonantico(elemento[i],elemento[i+1])) {
-                            System.out.println(palabra.substring(bandera, i));
+                        if (esGrupoConsonantico(elemento[i],elemento[i+1]) || esEspecial(elemento[i],elemento[i+1])) {
+                            System.out.println(palabra.substring(bandera, i)); //separa
                             bandera = i;
                         }
-                        if (i>1&&esConsonante(elemento[i-1])&&!esGrupoConsonantico(elemento[i-1],elemento[i])) {
-                            System.out.println(palabra.substring(bandera, i));
+                        if (i>1&&esConsonante(elemento[i-1])&&!esGrupoConsonantico(elemento[i-1],elemento[i])&&!esEspecial(elemento[i-1],elemento[i])&&!esConsonante(elemento[i+1])) {
+                            System.out.println(palabra.substring(bandera, i)); //separa
                             bandera = i;
                         }
                         if (esVocal(elemento[i-1]) && esVocal(elemento[i+1])) {
-                            System.out.println(palabra.substring(bandera, i));
+                            System.out.println(palabra.substring(bandera, i)); //separa
                             bandera = i;
                         }
                         
@@ -83,7 +100,7 @@ public class Silabas {
                     else if (esVocal(elemento[i])) {
                         if (esVocal(elemento[i-1])) {
                             if (esVocalFuerte(elemento[i-1])&&esVocalFuerte(elemento[i])) {
-                            System.out.println(palabra.substring(bandera, i));
+                            System.out.println(palabra.substring(bandera, i)); //separa
                             bandera = i;
                             }
                         }
@@ -91,7 +108,7 @@ public class Silabas {
                         
                     }
                     if (i==(elemento.length-1)) {
-                           System.out.println(palabra.substring(bandera, elemento.length));
+                           System.out.println(palabra.substring(bandera, elemento.length)); //imprime ultima silaba
                  }
                 
             }
